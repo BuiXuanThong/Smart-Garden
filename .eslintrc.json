@@ -13,6 +13,7 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
+    "no-unneeded-ternary": "off",
     "caseSensitive": "off",
     "prettier/prettier": "off",
     "default-param-last": "off",
