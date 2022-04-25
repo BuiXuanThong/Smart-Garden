@@ -57,3 +57,12 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+
+ /* New */
+
+  .my-input {
+    width: 48px;
+    border-radius: 4px;
+    font-weight: 570;
+  }

@@ -16,21 +16,19 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Icon from "@mui/material/Icon";
+// import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDAvatar from "components/MDAvatar";
-import MDProgress from "components/MDProgress";
+// import MDProgress from "components/MDProgress";
 
 // Images
-import LogoAsana from "assets/images/small-logos/logo-asana.svg";
-import logoGithub from "assets/images/small-logos/github.svg";
-import logoAtlassian from "assets/images/small-logos/logo-atlassian.svg";
-import logoSlack from "assets/images/small-logos/logo-slack.svg";
-import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
-import logoInvesion from "assets/images/small-logos/logo-invision.svg";
+import tempIcon from "assets/images/temp_icon.png";
+import humidIcon from "assets/images/humid_icon.png";
+import lightIcon from "assets/images/light_icon.png";
+import grHumidIcon from "assets/images/grhumid_icon.png";
 
 export default function data() {
   const Project = ({ image, name }) => (
@@ -42,138 +40,68 @@ export default function data() {
     </MDBox>
   );
 
-  const Progress = ({ color, value }) => (
-    <MDBox display="flex" alignItems="center">
-      <MDTypography variant="caption" color="text" fontWeight="medium">
-        {value}%
-      </MDTypography>
-      <MDBox ml={0.5} width="9rem">
-        <MDProgress variant="gradient" color={color} value={value} />
-      </MDBox>
-    </MDBox>
-  );
-
   return {
     columns: [
-      { Header: "project", accessor: "project", width: "30%", align: "left" },
-      { Header: "budget", accessor: "budget", align: "left" },
-      { Header: "status", accessor: "status", align: "center" },
-      { Header: "completion", accessor: "completion", align: "center" },
-      { Header: "action", accessor: "action", align: "center" },
+      { Header: "Name", accessor: "project", width: "30%", align: "left" },
+      { Header: "Min", accessor: "budget", align: "center" },
+      { Header: "Max", accessor: "status", align: "center" },
+      { Header: "Action", accessor: "action", align: "center" },
     ],
 
     rows: [
       {
-        project: <Project image={LogoAsana} name="Asana" />,
+        project: <Project image={tempIcon} name="Temperature" />,
         budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $2,500
-          </MDTypography>
+          <input className="my-input" type="number" id="min-temp"/>
         ),
         status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            working
-          </MDTypography>
+          <input className="my-input" type="number" id="max-temp"/>
         ),
-        completion: <Progress color="info" value={60} />,
         action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+            SAVE
           </MDTypography>
         ),
       },
       {
-        project: <Project image={logoGithub} name="Github" />,
+        project: <Project image={humidIcon} name="Humidity" />,
         budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $5,000
-          </MDTypography>
+          <input className="my-input" type="number" id="min-humid"/>
         ),
         status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            done
-          </MDTypography>
+          <input className="my-input" type="number" id="max-humid"/>
         ),
-        completion: <Progress color="success" value={100} />,
         action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+            SAVE
           </MDTypography>
         ),
       },
       {
-        project: <Project image={logoAtlassian} name="Atlassian" />,
+        project: <Project image={lightIcon} name="Light" />,
         budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $3,400
-          </MDTypography>
+          <input className="my-input" type="number" id="min-light"/>
         ),
         status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            canceled
-          </MDTypography>
+          <input className="my-input" type="number" id="max-light"/>
         ),
-        completion: <Progress color="error" value={30} />,
         action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+            SAVE
           </MDTypography>
         ),
       },
       {
-        project: <Project image={logoSpotify} name="Spotify" />,
+        project: <Project image={grHumidIcon} name="Ground Humidity" />,
         budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $14,000
-          </MDTypography>
+          <input className="my-input" type="number" id="min-grhm"/>
         ),
         status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            working
-          </MDTypography>
+          <input className="my-input" type="number" id="max-grhm"/>
         ),
-        completion: <Progress color="info" value={80} />,
         action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-      {
-        project: <Project image={logoSlack} name="Slack" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $1,000
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            canceled
-          </MDTypography>
-        ),
-        completion: <Progress color="error" value={0} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
-          </MDTypography>
-        ),
-      },
-      {
-        project: <Project image={logoInvesion} name="Invesion" />,
-        budget: (
-          <MDTypography component="a" href="#" variant="button" color="text" fontWeight="medium">
-            $2,300
-          </MDTypography>
-        ),
-        status: (
-          <MDTypography component="a" href="#" variant="caption" color="text" fontWeight="medium">
-            done
-          </MDTypography>
-        ),
-        completion: <Progress color="success" value={100} />,
-        action: (
-          <MDTypography component="a" href="#" color="text">
-            <Icon>more_vert</Icon>
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+            SAVE
           </MDTypography>
         ),
       },
