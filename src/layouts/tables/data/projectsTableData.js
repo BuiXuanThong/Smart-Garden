@@ -30,6 +30,9 @@ import humidIcon from "assets/images/humid_icon.png";
 import lightIcon from "assets/images/light_icon.png";
 import grHumidIcon from "assets/images/grhumid_icon.png";
 
+import {useState, useEffect} from "react";
+import firebase from "util/firebase";
+
 export default function data() {
   const Project = ({ image, name }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -39,6 +42,116 @@ export default function data() {
       </MDTypography>
     </MDBox>
   );
+
+  const [temp, setTemp] = useState({
+    min: -1,
+    max: -1
+  });
+
+  const [humid, setHumid] = useState({
+    min: -1,
+    max: -1
+  });
+
+  const [light, setLight] = useState({
+    min: -1,
+    max: -1
+  });
+
+  const [grHumid, setGrHumid] = useState({
+    min: -1,
+    max: -1
+  });
+
+  useEffect(() => {
+    firebase.database().ref('Min_max').on("value", (snapshot) => {
+        snapshot.forEach((child) => {
+            // if temperature
+            if (child.key === "temperature") {
+                setTemp({
+                  min: child.child("min").val(),
+                  max: child.child("max").val()
+                });
+            }
+            else if (child.key === "humid") {
+                setHumid({
+                  min: child.child("min").val(),
+                  max: child.child("max").val()
+                });
+            }
+            else if (child.key === "light") {
+                setLight({
+                  min: child.child("min").val(),
+                  max: child.child("max").val()
+                });
+            }
+            else if (child.key === "ground_humid") {
+                setGrHumid({
+                  min: child.child("min").val(),
+                  max: child.child("max").val()
+                });
+            }
+        });
+    });
+  }, []);
+
+  const handleMinChange = type => (e) => {
+    if(type === "temperature") {
+      setTemp({...temp, min: e.target.value});
+    }
+    else if(type === "humid") {
+      setHumid({...humid, min: e.target.value});
+    }
+    else if(type === "light") {
+      setLight({...light, min: e.target.value});
+    }
+    else if(type === "ground_humid") {
+      setGrHumid({...grHumid, min: e.target.value});
+    }
+  }
+
+  const handleMaxChange = type => (e) => {
+    if(type === "temperature") {
+      setTemp({...temp, max: e.target.value});
+    }
+    else if(type === "humid") {
+      setHumid({...humid, max: e.target.value});
+    }
+    else if(type === "light") {
+      setLight({...light, max: e.target.value});
+    }
+    else if(type === "ground_humid") {
+      setGrHumid({...grHumid, max: e.target.value});
+    }
+  }
+
+  const handleSave = type => {
+    if(type === "temperature") {
+      firebase.database().ref('Min_max').child(type).update({
+        min: temp.min,
+        max: temp.max,
+      });
+    }
+    else if(type === "humid") {
+      firebase.database().ref('Min_max').child(type).update({
+        min: humid.min,
+        max: humid.max,
+      });
+    }
+    else if(type === "light") {
+      firebase.database().ref('Min_max').child(type).update({
+        min: light.min,
+        max: light.max,
+      });
+    }
+    else if(type === "ground_humid") {
+      firebase.database().ref('Min_max').child(type).update({
+        min: grHumid.min,
+        max: grHumid.max,
+      });
+    }
+    alert("Saved!");
+  }
 
   return {
     columns: [
@@ -52,13 +165,13 @@ export default function data() {
       {
         project: <Project image={tempIcon} name="Temperature" />,
         budget: (
-          <input className="my-input" type="number" id="min-temp"/>
+          <input className="my-input" type="number" id="min-temp" value={temp.min} onChange={handleMinChange("temperature")}/>
         ),
         status: (
-          <input className="my-input" type="number" id="max-temp"/>
+          <input className="my-input" type="number" id="max-temp" value={temp.max} onChange={handleMaxChange("temperature")}/>
         ),
         action: (
-          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium" onClick={() => handleSave("temperature")}>
             SAVE
           </MDTypography>
         ),
@@ -66,13 +179,13 @@ export default function data() {
       {
         project: <Project image={humidIcon} name="Humidity" />,
         budget: (
-          <input className="my-input" type="number" id="min-humid"/>
+          <input className="my-input" type="number" id="min-humid" value={humid.min} onChange={handleMinChange("humid")}/>
         ),
         status: (
-          <input className="my-input" type="number" id="max-humid"/>
+          <input className="my-input" type="number" id="max-humid" value={humid.max} onChange={handleMaxChange("humid")}/>
         ),
         action: (
-          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium" onClick={() => handleSave("humid")}>
             SAVE
           </MDTypography>
         ),
@@ -80,13 +193,13 @@ export default function data() {
       {
         project: <Project image={lightIcon} name="Light" />,
         budget: (
-          <input className="my-input" type="number" id="min-light"/>
+          <input className="my-input" type="number" id="min-light" value={light.min} onChange={handleMinChange("light")}/>
         ),
         status: (
-          <input className="my-input" type="number" id="max-light"/>
+          <input className="my-input" type="number" id="max-light" value={light.max} onChange={handleMaxChange("light")}/>
         ),
         action: (
-          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium" onClick={() => handleSave("light")}>
             SAVE
           </MDTypography>
         ),
@@ -94,13 +207,13 @@ export default function data() {
       {
         project: <Project image={grHumidIcon} name="Ground Humidity" />,
         budget: (
-          <input className="my-input" type="number" id="min-grhm"/>
+          <input className="my-input" type="number" id="min-grhm" value={grHumid.min} onChange={handleMinChange("ground_humid")}/>
         ),
         status: (
-          <input className="my-input" type="number" id="max-grhm"/>
+          <input className="my-input" type="number" id="max-grhm" value={grHumid.max} onChange={handleMaxChange("ground_humid")}/>
         ),
         action: (
-          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium">
+          <MDTypography component="a" href="#" variant="caption" color="success" fontWeight="medium" onClick={() => handleSave("ground_humid")}>
             SAVE
           </MDTypography>
         ),
