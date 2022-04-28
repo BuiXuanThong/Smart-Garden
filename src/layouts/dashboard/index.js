@@ -38,7 +38,7 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import React, { useEffect, useState } from "react";
 
 
-function Dashboard() {
+const Dashboard = () => {
   const [clockState, setClockState] = useState();
   const [humid, setHumid] = useState();
   const [light, setLight] = useState();

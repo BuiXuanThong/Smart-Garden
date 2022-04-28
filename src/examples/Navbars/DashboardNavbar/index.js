@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -53,12 +53,29 @@ import {
   setOpenConfigurator,
 } from "context";
 
-function DashboardNavbar({ absolute, light, isMini }) {
+
+// firebase
+import {auth} from 'util/firebase';
+
+const DashboardNavbar = ({ absolute, light, isMini }) => {
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+
+  const [userName, setUserName] = useState('Loading...');
+
+  const handleLogout = () => {
+    auth.signOut();
+  }
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+        setUserName(user.email);
+    });
+  }, []);
+
 
   useEffect(() => {
     // Setting the navbar type
@@ -136,14 +153,12 @@ function DashboardNavbar({ absolute, light, isMini }) {
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
             <MDBox pr={1}>
-              <MDInput label="Search here" />
+              <MDInput label="Logged as" value={userName}/>
             </MDBox>
             <MDBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in/basic">
                 <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
+                  <Icon sx={iconsStyle} onClick={() => {handleLogout()}}>logout</Icon>
                 </IconButton>
-              </Link>
               <IconButton
                 size="small"
                 disableRipple

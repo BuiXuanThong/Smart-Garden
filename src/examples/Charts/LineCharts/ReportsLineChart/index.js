@@ -33,7 +33,7 @@ import MDTypography from "components/MDTypography";
 // ReportsLineChart configurations
 import configs from "examples/Charts/LineCharts/ReportsLineChart/configs";
 
-function ReportsLineChart({ color, title, description, date, chart }) {
+const ReportsLineChart = ({ color, title, description, date, chart }) => {
   const { data, options } = configs(chart.labels || [], chart.datasets || {});
 
   return (

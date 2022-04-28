@@ -53,7 +53,24 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 
-export default function App() {
+// here
+// import {auth} from './util/firebase';
+
+
+
+const App = () => {
+  // const [user, setUser] = useState(null);
+  // const [pending, setPending] = useState(true);
+
+  // // login
+  // useEffect(() => {
+  //   auth.onAuthStateChanged(_user => {
+  //       setUser(_user);
+  //       setPending(false);
+  //   });
+  // }, []);
+  
+  // end
   const [controller, dispatch] = useMaterialUIController();
   const {
     miniSidenav,
@@ -146,16 +163,48 @@ export default function App() {
     </MDBox>
   );
 
-  return direction === "rtl" ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+  // if(pending) {
+  //   return <>Loading...</>
+  // }
+
+  if(direction === "rtl") {
+    return (
+      <CacheProvider value={rtlCache}>
+        <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+          <CssBaseline />
+          {layout === "dashboard" && (
+            <>
+              <Sidenav
+                color={sidenavColor}
+                brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
+                brandName="Material Dashboard 2"
+                routes={routes}
+                onMouseEnter={handleOnMouseEnter}
+                onMouseLeave={handleOnMouseLeave}
+              />
+              <Configurator />
+              {configsButton}
+            </>
+          )}
+          {layout === "vr" && <Configurator />}
+          <Routes>
+            {getRoutes(routes)}
+            <Route path="*" element={<Navigate to="/dashboard" />} />
+          </Routes>
+        </ThemeProvider>
+      </CacheProvider>
+    )
+  }
+  // if(user !== null) {
+    return (
+      <ThemeProvider theme={darkMode ? themeDark : theme}>
         <CssBaseline />
         {layout === "dashboard" && (
           <>
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Material Dashboard 2"
+              brandName="/. SMART GARDEN .\"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -167,32 +216,19 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/dashboard" />}/>
         </Routes>
       </ThemeProvider>
-    </CacheProvider>
-  ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
-      <CssBaseline />
-      {layout === "dashboard" && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="/. SMART GARDEN .\"
-            routes={routes}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}
-          />
-          <Configurator />
-          {configsButton}
-        </>
-      )}
-      {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
-    </ThemeProvider>
-  );
+      
+    )
+  // }
+  
+  // return (
+  //   <form action="/authentication/sign-in">
+  //     <input type="submit" value="Go to Google" />
+  //   </form>
+  // )
+  
 }
+
+export default App;

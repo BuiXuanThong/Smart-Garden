@@ -39,7 +39,7 @@ import MDPagination from "components/MDPagination";
 import DataTableHeadCell from "examples/Tables/DataTable/DataTableHeadCell";
 import DataTableBodyCell from "examples/Tables/DataTable/DataTableBodyCell";
 
-function DataTable({
+const DataTable = ({
   entriesPerPage,
   canSearch,
   showTotalEntries,
@@ -47,7 +47,7 @@ function DataTable({
   pagination,
   isSorted,
   noEndBorder,
-}) {
+}) => {
   const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())

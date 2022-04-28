@@ -27,7 +27,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function Breadcrumbs({ icon, title, route, light }) {
+const Breadcrumbs = ({ icon, title, route, light }) => {
   const routes = route.slice(0, -1);
 
   return (

@@ -51,8 +51,7 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
-function Overview() {
-  return (
+const Overview = () => (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mb={2} />
@@ -198,6 +197,5 @@ function Overview() {
       <Footer />
     </DashboardLayout>
   );
-}
 
 export default Overview;

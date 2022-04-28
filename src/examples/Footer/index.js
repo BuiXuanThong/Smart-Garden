@@ -27,7 +27,7 @@ import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React base styles
 import typography from "assets/theme/base/typography";
 
-function Footer({ company, links }) {
+const Footer = ({ company, links }) => {
   const { href, name } = company;
   const { size } = typography;
 

@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -32,7 +32,47 @@ import CoverLayout from "layouts/authentication/components/CoverLayout";
 // Images
 import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
-function Cover() {
+// useState
+import { useState } from "react";
+
+// firebase
+import {auth} from "util/firebase";
+
+const Cover = () => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleRePasswordChange = (event) => {
+    setRePassword(event.target.value);
+  };
+
+  const signUpFun = () => {
+    if(password !== rePassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    auth.createUserWithEmailAndPassword(email, password)
+    .then(() => {
+        alert('Sign up successfully! Click OK to navigate to the login page.');
+        navigate("/authentication/sign-in");
+    })
+    .catch((e) => {
+        alert(e.message);
+    })
+  };
+
   return (
     <CoverLayout image={bgImage}>
       <Card>
@@ -57,13 +97,13 @@ function Cover() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="text" label="Name" variant="standard" fullWidth />
+              <MDInput type="email" label="Email" variant="standard" fullWidth onChange={handleEmailChange}/>
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" variant="standard" fullWidth />
+              <MDInput type="password" label="Password" variant="standard" fullWidth onChange={handlePasswordChange}/>
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" variant="standard" fullWidth />
+              <MDInput type="password" label="Confirm Password" variant="standard" fullWidth onChange={handleRePasswordChange}/>
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Checkbox />
@@ -87,8 +127,8 @@ function Cover() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
-                sign in
+              <MDButton variant="gradient" color="info" fullWidth onClick={() => {signUpFun()}}>
+                sign up
               </MDButton>
             </MDBox>
             <MDBox mt={3} mb={1} textAlign="center">

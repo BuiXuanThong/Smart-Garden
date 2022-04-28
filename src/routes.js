@@ -48,6 +48,9 @@ import SignUp from "layouts/authentication/sign-up";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
+// private
+import PrivateRoute from "./PrivateRoute";
+
 const routes = [
   {
     type: "collapse",
@@ -55,7 +58,7 @@ const routes = [
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
-    component: <Dashboard />,
+    component: <PrivateRoute> <Dashboard /> </PrivateRoute>,
   },
   {
     type: "collapse",
@@ -63,7 +66,7 @@ const routes = [
     key: "tables",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
-    component: <Tables />,
+    component: <PrivateRoute> <Tables /> </PrivateRoute>,
   },
   {
     type: "collapse",
@@ -71,7 +74,7 @@ const routes = [
     key: "notifications",
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
-    component: <Notifications />,
+    component: <PrivateRoute> <Notifications /> </PrivateRoute>,
   },
   {
     type: "collapse",
@@ -79,21 +82,21 @@ const routes = [
     key: "profile",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
-    component: <Profile />,
+    component:  <PrivateRoute> <Profile /> </PrivateRoute>,
   },
   {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
+    // type: "collapse",
+    // name: "Sign In",
+    // key: "sign-in",
+    // icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/sign-in",
     component: <SignIn />,
   },
   {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
+    // type: "collapse",
+    // name: "Sign Up",
+    // key: "sign-up",
+    // icon: <Icon fontSize="small">assignment</Icon>,
     route: "/authentication/sign-up",
     component: <SignUp />,
   },
