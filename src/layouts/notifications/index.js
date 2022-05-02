@@ -50,23 +50,26 @@ const Notifications = () => {
   // const closeErrorSB = () => setErrorSB(false);
 
 
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([{}]);
 
   
   useEffect(() => {
     const notiList = [];
     firebase.database().ref('Notifications').on("value", (snapshot) => {
         snapshot.forEach((child) => {
-          notiList.push(child.val());
+          notiList.push({
+            time: child.child("time").val(),
+            content: child.child("content").val()
+          });
         });
     });
     setNotifications(notiList);
   }, []);
 
 
-  const alertContent = (content) => (
+  const alertContent = (content, time) => (
     <MDTypography variant="body2" color="white">
-      {content}
+      {time} - {content}
     </MDTypography>
   );
 
@@ -138,7 +141,7 @@ const Notifications = () => {
 
                 {notifications.map((noti) => (
                 <MDAlert color="secondary" dismissible>
-                  {alertContent(noti)}
+                  {alertContent(noti.content, noti.time)}
                 </MDAlert>
                 ))}
 
