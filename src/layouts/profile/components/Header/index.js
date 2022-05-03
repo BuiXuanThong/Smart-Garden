@@ -37,6 +37,7 @@ import breakpoints from "assets/theme/base/breakpoints";
 // Images
 import burceMars from "assets/images/bruce-mars.jpg";
 import backgroundImage from "assets/images/bg-profile.jpeg";
+import firebase, {auth} from "util/firebase";
 
 const Header = ({ children }) => {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
@@ -63,6 +64,22 @@ const Header = ({ children }) => {
   }, [tabsOrientation]);
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+
+  const [userName, setUserName] = useState("Loading...");
+  // const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+        firebase.database().ref('User').orderByChild('email').equalTo(user.email).on("value",  (snapshot) => {
+          snapshot.forEach((child) => {
+            setUserName(child.child("name").val());
+          });
+        });
+    });
+  }, []);
+  
+
+
 
   return (
     <MDBox position="relative" mb={5}>
@@ -99,10 +116,10 @@ const Header = ({ children }) => {
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
               <MDTypography variant="h5" fontWeight="medium">
-                Richard Davis
+                {userName}
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                CEO / Co-Founder
+                User
               </MDTypography>
             </MDBox>
           </Grid>

@@ -36,14 +36,17 @@ import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 import { useState } from "react";
 
 // firebase
-import {auth} from "util/firebase";
+import firebase, {auth} from "util/firebase";
 
 const Cover = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
+  const [_email, setEmail] = useState("");
+  const [_password, setPassword] = useState("");
+  const [_rePassword, setRePassword] = useState("");
+  const [_name, setName] = useState("");
+  const [_phone, setPhone] = useState("");
+  const [_location, setLocation] = useState("");
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -57,14 +60,35 @@ const Cover = () => {
     setRePassword(event.target.value);
   };
 
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
+  };
+
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
+  };
+
   const signUpFun = () => {
-    if(password !== rePassword) {
+    if(_password !== _rePassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    auth.createUserWithEmailAndPassword(email, password)
+    auth.createUserWithEmailAndPassword(_email, _password)
     .then(() => {
+        const dbRef = firebase.database().ref('User');
+        const element = {
+            email: _email,
+            name: _name,
+            phone: _phone,
+            location: _location
+        }
+        dbRef.push(element);
+
         alert('Sign up successfully! Click OK to navigate to the login page.');
         navigate("/authentication/sign-in");
     })
@@ -104,6 +128,15 @@ const Cover = () => {
             </MDBox>
             <MDBox mb={2}>
               <MDInput type="password" label="Confirm Password" variant="standard" fullWidth onChange={handleRePasswordChange}/>
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Your Name" variant="standard" fullWidth onChange={handleNameChange}/>
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Phone" variant="standard" fullWidth onChange={handlePhoneChange}/>
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput type="text" label="Location" variant="standard" fullWidth onChange={handleLocationChange}/>
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Checkbox />

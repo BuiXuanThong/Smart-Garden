@@ -13,6 +13,7 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
+    "prefer-template": "off",
     "react/prop-types": "off",
     "no-alert": "off",
     "no-unneeded-ternary": "off",
