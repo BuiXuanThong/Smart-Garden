@@ -139,7 +139,7 @@ const Notifications = () => {
               </MDBox>
               <MDBox pt={2} px={2}>
 
-                {notifications.map((noti) => (
+                {notifications.reverse().slice(0, 10).map((noti) => (
                 <MDAlert color="secondary" dismissible>
                   {alertContent(noti.content, noti.time)}
                 </MDAlert>
