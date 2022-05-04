@@ -21,7 +21,7 @@ function configs(labels, datasets) {
         {
           label: datasets.label,
           tension: 0,
-          pointRadius: 5,
+          pointRadius: 1,
           pointBorderColor: "transparent",
           pointBackgroundColor: "rgba(255, 255, 255, .8)",
           borderColor: "rgba(255, 255, 255, .8)",
@@ -60,7 +60,7 @@ function configs(labels, datasets) {
             color: "#f8f9fa",
             padding: 10,
             font: {
-              size: 14,
+              size: 9,
               weight: 300,
               family: "Roboto",
               style: "normal",
@@ -81,7 +81,7 @@ function configs(labels, datasets) {
             color: "#f8f9fa",
             padding: 10,
             font: {
-              size: 14,
+              size: 12,
               weight: 300,
               family: "Roboto",
               style: "normal",
