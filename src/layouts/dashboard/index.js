@@ -180,7 +180,6 @@ const Dashboard = () => {
                   color="dark"
                   title="Temperature"
                   description=""
-                  date="just updated"
                   chart={tempChartData}
                 />
               </MDBox>
@@ -191,7 +190,6 @@ const Dashboard = () => {
                   color="dark"
                   title="Humid"
                   description=""
-                  date="just updated"
                   chart={humidChartData}
                 />
               </MDBox>
@@ -202,7 +200,6 @@ const Dashboard = () => {
                   color="dark"
                   title="Light"
                   description=""
-                  date="just updated"
                   chart={lightChartData}
                 />
               </MDBox>
@@ -213,7 +210,6 @@ const Dashboard = () => {
                   color="dark"
                   title="Ground Humid"
                   description=""
-                  date="just updated"
                   chart={humidGrChartData}
                 />
               </MDBox>
