@@ -50,7 +50,7 @@ export default function data() {
 
     	// Adding body or contents to send
     	body: JSON.stringify({
-    		"X-AIO-Key": "aio_nnDo095XgBmSBw6aM5tr84OVjvoY",
+    		"X-AIO-Key": "aio_Qnls44COxv7eNSLLzbbUokxJD137",
         	"datum":{"value": value}
     	}),
 
@@ -71,7 +71,7 @@ export default function data() {
 
         // Adding body or contents to send
         body: JSON.stringify({
-          "X-AIO-Key": "aio_nnDo095XgBmSBw6aM5tr84OVjvoY",
+          "X-AIO-Key": "aio_Qnls44COxv7eNSLLzbbUokxJD137",
             "datum":{"value": value}
         }),
 
