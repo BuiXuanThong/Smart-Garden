@@ -27,7 +27,7 @@ import MDBox from "components/MDBox";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 
 // Authentication pages components
-import Footer from "layouts/authentication/components/Footer";
+// import Footer from "layouts/authentication/components/Footer";
 
 const BasicLayout = ({ image, children }) => (
     <PageLayout>
@@ -62,7 +62,7 @@ const BasicLayout = ({ image, children }) => (
           </Grid>
         </Grid>
       </MDBox>
-      <Footer light />
+      {/* <Footer light /> */}
     </PageLayout>
   );
 

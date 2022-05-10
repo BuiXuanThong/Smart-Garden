@@ -28,7 +28,7 @@ import MDBox from "components/MDBox";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 
 // Authentication layout components
-import Footer from "layouts/authentication/components/Footer";
+// import Footer from "layouts/authentication/components/Footer";
 
 const CoverLayout = ({ coverHeight, image, children }) => (
     <PageLayout>
@@ -68,7 +68,6 @@ const CoverLayout = ({ coverHeight, image, children }) => (
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </PageLayout>
   );
 // Setting default props for the CoverLayout
