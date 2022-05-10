@@ -29,7 +29,7 @@ import MDAlert from "components/MDAlert";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
+// import Footer from "examples/Footer";
 
 // firebase
 import firebase from "util/firebase";
@@ -210,7 +210,7 @@ const Notifications = () => {
           </Grid> */}
         </Grid>
       </MDBox>
-      <Footer />
+      {/* <Footer /> */}
     </DashboardLayout>
   );
 }
