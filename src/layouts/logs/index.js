@@ -50,7 +50,7 @@ const Logs = () => {
   // const closeErrorSB = () => setErrorSB(false);
 
 
-  const [logs, setLogs] = useState([{}]);
+  const [logs, setLogs] = useState([]);
   const [page, setPage] = useState(1);
   
   const incPage = ()=>{
@@ -73,12 +73,9 @@ const Logs = () => {
             content: child.child("content").val()
           });
         });
+        setLogs(logList);
     });
-    setLogs(logList);
-
-
-    
-  }, [logs]);
+  }, []);
 
 
   const alertContent = (content, time) => (

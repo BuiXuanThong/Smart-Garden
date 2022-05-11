@@ -62,9 +62,9 @@ const Notifications = () => {
             content: child.child("content").val()
           });
         });
+        setNotifications(notiList);
     });
-    setNotifications(notiList);
-  }, [notifications]);
+  }, []);
 
 
   const alertContent = (content, time) => (
