@@ -152,6 +152,10 @@ export default function data() {
 
   const handleSave = type => {
     if(type === "temperature") {
+      if(temp.min >= temp.max) {
+        alert("Min value must be smaller than Max value !");
+        return;
+      }
       firebase.database().ref('Min_max').child(type).update({
         min: temp.min,
         max: temp.max,
@@ -160,6 +164,10 @@ export default function data() {
       pushToDB(content);
     }
     else if(type === "humid") {
+      if(humid.min >= humid.max) {
+        alert("Min value must be smaller than Max value !");
+        return;
+      }
       firebase.database().ref('Min_max').child(type).update({
         min: humid.min,
         max: humid.max,
@@ -168,6 +176,10 @@ export default function data() {
       pushToDB(content);
     }
     else if(type === "light") {
+      if(light.min >= light.max) {
+        alert("Min value must be smaller than Max value !");
+        return;
+      }
       firebase.database().ref('Min_max').child(type).update({
         min: light.min,
         max: light.max,
@@ -176,6 +188,10 @@ export default function data() {
       pushToDB(content);
     }
     else if(type === "ground_humid") {
+      if(grHumid.min >= grHumid.max) {
+        alert("Min value must be smaller than Max value !");
+        return;
+      }
       firebase.database().ref('Min_max').child(type).update({
         min: grHumid.min,
         max: grHumid.max,

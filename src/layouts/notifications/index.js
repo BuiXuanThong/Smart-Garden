@@ -50,7 +50,7 @@ const Notifications = () => {
   // const closeErrorSB = () => setErrorSB(false);
 
 
-  const [notifications, setNotifications] = useState([{}]);
+  const [notifications, setNotifications] = useState([]);
 
   
   useEffect(() => {
