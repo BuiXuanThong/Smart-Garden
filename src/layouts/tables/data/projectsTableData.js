@@ -31,7 +31,7 @@ import lightIcon from "assets/images/light_icon.png";
 import grHumidIcon from "assets/images/grhumid_icon.png";
 
 import {useState, useEffect} from "react";
-import firebase from "util/firebase";
+import firebase, {auth} from "util/firebase";
 
 export default function data() {
   const Project = ({ image, name }) => (
@@ -63,6 +63,8 @@ export default function data() {
     max: -1
   });
 
+  const [userName, setUserName] = useState("");
+
   useEffect(() => {
     firebase.database().ref('Min_max').on("value", (snapshot) => {
         snapshot.forEach((child) => {
@@ -93,6 +95,15 @@ export default function data() {
             }
         });
     });
+
+    auth.onAuthStateChanged((user) => {
+      firebase.database().ref('User').orderByChild('email').equalTo(user.email).on("value",  (snapshot) => {
+        snapshot.forEach((child) => {
+          setUserName(child.child("name").val());
+        });
+      });
+    });
+
   }, []);
 
   const handleMinChange = type => (e) => {
@@ -124,6 +135,24 @@ export default function data() {
       setGrHumid({...grHumid, max: e.target.value});
     }
   }
+  const pushToDB = (str) => {
+    const timeNow = Date.now();
+    const day = new Date(timeNow).getDate();
+    const month = new Date(timeNow).getMonth() + 1;
+    const year = new Date(timeNow).getFullYear();
+    const date = day + "/" + month + "/" + year;
+    
+    const time = new Date(timeNow).toLocaleTimeString();
+    const fixedTime = date + " " + time;
+
+    const content = {
+      time: fixedTime,
+      content: str
+    };
+
+    const todoRef = firebase.database().ref('Logs');
+    todoRef.push(content);
+  }
 
   const handleSave = type => {
     if(type === "temperature") {
@@ -131,27 +160,36 @@ export default function data() {
         min: temp.min,
         max: temp.max,
       });
+      const content = userName + " changed the Temperature min and max values to [" + temp.min + ", " + temp.max + "]";
+      pushToDB(content);
     }
     else if(type === "humid") {
       firebase.database().ref('Min_max').child(type).update({
         min: humid.min,
         max: humid.max,
       });
+      const content = userName + " changed the Humidity min and max values to [" + humid.min + ", " + humid.max + "]";
+      pushToDB(content);
     }
     else if(type === "light") {
       firebase.database().ref('Min_max').child(type).update({
         min: light.min,
         max: light.max,
       });
+      const content = userName + " changed the Light min and max values to [" + light.min + ", " + light.max + "]";
+      pushToDB(content);
     }
     else if(type === "ground_humid") {
       firebase.database().ref('Min_max').child(type).update({
         min: grHumid.min,
         max: grHumid.max,
       });
+      const content = userName + " changed the Ground Humid min and max values to [" + grHumid.min + ", " + grHumid.max + "]";
+      pushToDB(content);
     }
     alert("Saved!");
   }
+
 
   return {
     columns: [
