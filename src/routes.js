@@ -44,7 +44,7 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
-
+import Logs from "layouts/logs";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -75,6 +75,14 @@ const routes = [
     icon: <Icon fontSize="small">notifications</Icon>,
     route: "/notifications",
     component: <PrivateRoute> <Notifications /> </PrivateRoute>,
+  },
+  {
+    type: "collapse",
+    name: "Logs",
+    key: "logs",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/logs",
+    component: <PrivateRoute> <Logs /> </PrivateRoute>,
   },
   {
     type: "collapse",

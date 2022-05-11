@@ -23,7 +23,7 @@ import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDAlert from "components/MDAlert";
-// import MDButton from "components/MDButton";
+import MDButton from "components/MDButton";
 // import MDSnackbar from "components/MDSnackbar";
 
 // Material Dashboard 2 React example components
@@ -34,7 +34,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // firebase
 import firebase from "util/firebase";
 
-const Notifications = () => {
+const Logs = () => {
   // const [successSB, setSuccessSB] = useState(false);
   // const [infoSB, setInfoSB] = useState(false);
   // const [warningSB, setWarningSB] = useState(false);
@@ -50,21 +50,35 @@ const Notifications = () => {
   // const closeErrorSB = () => setErrorSB(false);
 
 
-  const [notifications, setNotifications] = useState([{}]);
-
+  const [logs, setLogs] = useState([{}]);
+  const [page, setPage] = useState(1);
   
+  const incPage = ()=>{
+    const maxPage = Math.ceil(logs.length/10);
+    if (page < maxPage)  setPage(page+1);
+    console.log(maxPage);
+    console.log(page);
+  }
+  const desPage = ()=>{
+    if (page > 1) setPage(page-1);
+    
+    console.log(page);
+  }
   useEffect(() => {
-    const notiList = [];
-    firebase.database().ref('Notifications').on("value", (snapshot) => {
+    const logList = [];
+    firebase.database().ref('Logs').on("value", (snapshot) => {
         snapshot.forEach((child) => {
-          notiList.push({
+          logList.push({
             time: child.child("time").val(),
             content: child.child("content").val()
           });
         });
     });
-    setNotifications(notiList);
-  }, [notifications]);
+    setLogs(logList);
+
+
+    
+  }, [logs]);
 
 
   const alertContent = (content, time) => (
@@ -135,41 +149,23 @@ const Notifications = () => {
           <Grid item xs={12} lg={8}>
             <Card>
               <MDBox p={2}>
-                <MDTypography variant="h5">Alerts</MDTypography>
+                <MDTypography variant="h5">Logs</MDTypography>
               </MDBox>
               <MDBox pt={2} px={2}>
 
-                {notifications.reverse().slice(0, 10).map((noti) => (
-                <MDAlert color="warning" dismissible>
-                  {alertContent(noti.content, noti.time)}
+                {logs.reverse().slice((page-1) * 10, page * 10 ).map((log) => (
+                <MDAlert color="secondary" dismissible>
+                  {alertContent(log.content, log.time)}
                 </MDAlert>
                 ))}
-
-                {/* <MDAlert color="secondary" dismissible>
-                  {alertContent("secondary")}
-                </MDAlert>
-                <MDAlert color="success" dismissible>
-                  {alertContent("success")}
-                </MDAlert>
-                <MDAlert color="error" dismissible>
-                  {alertContent("error")}
-                </MDAlert>
-                <MDAlert color="warning" dismissible>
-                  {alertContent("warning")}
-                </MDAlert>
-                <MDAlert color="info" dismissible>
-                  {alertContent("info")}
-                </MDAlert>
-                <MDAlert color="light" dismissible>
-                  {alertContent("light")}
-                </MDAlert>
-                <MDAlert color="dark" dismissible>
-                  {alertContent("dark")}
-                </MDAlert> */}
               </MDBox>
+              
             </Card>
+              
           </Grid>
-
+          
+          
+          
           {/* <Grid item xs={12} lg={8}>
             <Card>
               <MDBox p={2} lineHeight={0}>
@@ -209,10 +205,18 @@ const Notifications = () => {
             </Card>
           </Grid> */}
         </Grid>
+        <Grid container spacing={3} justifyContent="center" mt={3} mb={3}>
+        <MDButton mr={2}  onClick={desPage}>Previous</MDButton>
+        <MDBox p={2}>
+                <MDTypography variant="h6">Page {page}</MDTypography>
+        </MDBox>
+        <MDButton ml={2} onClick={incPage}>Next</MDButton>
+        </Grid>
+        
       </MDBox>
       {/* <Footer /> */}
     </DashboardLayout>
   );
 }
 
-export default Notifications;
+export default Logs;
