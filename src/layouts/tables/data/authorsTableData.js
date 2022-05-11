@@ -28,6 +28,9 @@ import pumpIcon from "assets/images/pump.jpg";
 // useState
 import { useState, useEffect } from "react";
 
+// firebase
+import firebase, { auth } from "util/firebase";
+
 
 // css
 import "./style.css";
@@ -40,7 +43,35 @@ export default function data() {
   const [ledState, setLedState] = useState(fs);
   const [pumpState, setPumpState] = useState(fs);
 
+  const [onChangingLed, setOnChangingLed] = useState(false);
+  const [onChangingPump, setOnChangingPump] = useState(false);
+
+
+  const pushToDB = (str) => {
+    const timeNow = Date.now();
+    const day = new Date(timeNow).getDate();
+    const month = new Date(timeNow).getMonth() + 1;
+    const year = new Date(timeNow).getFullYear();
+    const date = day + "/" + month + "/" + year;
+    
+    const time = new Date(timeNow).toLocaleTimeString();
+    const fixedTime = date + " " + time;
+
+    const content = {
+      time: fixedTime,
+      content: str
+    };
+
+    const todoRef = firebase.database().ref('Logs');
+    todoRef.push(content);
+  }
+
   function ledChangeToState(state) {
+    if(onChangingLed)
+      return;
+    
+    setOnChangingLed(true);
+
     const value = (state? "1" : "0");
 
     fetch("https://io.adafruit.com/api/v2/trong249/feeds/bbc-led/data", {
@@ -50,7 +81,7 @@ export default function data() {
 
     	// Adding body or contents to send
     	body: JSON.stringify({
-    		"X-AIO-Key": "aio_Qnls44COxv7eNSLLzbbUokxJD137",
+    		"X-AIO-Key": "aio_itwI00XSHQABuEVpvLjkmzFZgSjq",
         	"datum":{"value": value}
     	}),
 
@@ -58,10 +89,27 @@ export default function data() {
     	headers: {
     		"Content-type": "application/json; charset=UTF-8"
     	}
-    })
+    }).then(() => {
+      auth.onAuthStateChanged((user) => {
+        firebase.database().ref('User').orderByChild('email').equalTo(user.email).on("value",  (snapshot) => {
+          snapshot.forEach((child) => {
+            const content = child.child("name").val() + " changed LED state to " + (value === "1"? "ON" : "OFF");
+            pushToDB(content);
+          });
+        });
+      });
+      setOnChangingLed(false);
+    });
   }
+  
+         
 
   function pumpChangeToState(state) {
+      if(onChangingPump)
+        return;
+
+      setOnChangingPump(true);
+
       const value = (state? "3" : "2");
 
       fetch("https://io.adafruit.com/api/v2/trong249/feeds/bbc-pump/data", {
@@ -71,7 +119,7 @@ export default function data() {
 
         // Adding body or contents to send
         body: JSON.stringify({
-          "X-AIO-Key": "aio_Qnls44COxv7eNSLLzbbUokxJD137",
+          "X-AIO-Key": "aio_itwI00XSHQABuEVpvLjkmzFZgSjq",
             "datum":{"value": value}
         }),
 
@@ -79,7 +127,17 @@ export default function data() {
         headers: {
           "Content-type": "application/json; charset=UTF-8"
         }
-      })
+      }).then(() => {
+        auth.onAuthStateChanged((user) => {
+          firebase.database().ref('User').orderByChild('email').equalTo(user.email).on("value",  (snapshot) => {
+            snapshot.forEach((child) => {
+              const content = child.child("name").val() + " changed PUMP state to " + (value === "3"? "ON" : "OFF");
+              pushToDB(content);
+            });
+          });
+        });
+        setOnChangingPump(false);
+      });
   }
 
   useEffect(() => {
