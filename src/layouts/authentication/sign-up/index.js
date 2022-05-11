@@ -72,6 +72,25 @@ const Cover = () => {
     setLocation(event.target.value);
   };
 
+  const pushToDB = (str) => {
+    const timeNow = Date.now();
+    const day = new Date(timeNow).getDate();
+    const month = new Date(timeNow).getMonth() + 1;
+    const year = new Date(timeNow).getFullYear();
+    const date = day + "/" + month + "/" + year;
+    
+    const time = new Date(timeNow).toLocaleTimeString();
+    const fixedTime = date + " " + time;
+
+    const content = {
+      time: fixedTime,
+      content: str
+    };
+
+    const todoRef = firebase.database().ref('Logs');
+    todoRef.push(content);
+  }
+
   const signUpFun = () => {
     if(_password !== _rePassword) {
       alert("Passwords do not match!");
@@ -89,6 +108,7 @@ const Cover = () => {
         }
         dbRef.push(element);
 
+        pushToDB("User " + _email + " signed up");
         alert('Sign up successfully! Click OK to navigate to the login page.');
         navigate("/authentication/sign-in");
     })

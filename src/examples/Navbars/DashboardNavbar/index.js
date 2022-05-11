@@ -55,7 +55,7 @@ import {
 
 
 // firebase
-import {auth} from 'util/firebase';
+import firebase, {auth} from 'util/firebase';
 
 const DashboardNavbar = ({ absolute, light, isMini }) => {
   const [navbarType, setNavbarType] = useState();
@@ -66,8 +66,28 @@ const DashboardNavbar = ({ absolute, light, isMini }) => {
 
   const [userName, setUserName] = useState('Loading...');
 
+  const pushToDB = (str) => {
+    const timeNow = Date.now();
+    const day = new Date(timeNow).getDate();
+    const month = new Date(timeNow).getMonth() + 1;
+    const year = new Date(timeNow).getFullYear();
+    const date = day + "/" + month + "/" + year;
+    
+    const time = new Date(timeNow).toLocaleTimeString();
+    const fixedTime = date + " " + time;
+
+    const content = {
+      time: fixedTime,
+      content: str
+    };
+
+    const todoRef = firebase.database().ref('Logs');
+    todoRef.push(content);
+  }
+
   const handleLogout = () => {
     auth.signOut();
+    pushToDB("User " + userName + " logged out");
   }
 
   useEffect(() => {

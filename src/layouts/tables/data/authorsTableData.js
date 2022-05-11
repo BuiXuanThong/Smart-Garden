@@ -81,7 +81,7 @@ export default function data() {
 
     	// Adding body or contents to send
     	body: JSON.stringify({
-    		"X-AIO-Key": "aio_itwI00XSHQABuEVpvLjkmzFZgSjq",
+    		"X-AIO-Key": "aio_CBQP35TD43yaqgSjX0Ri8DMxEf3J",
         	"datum":{"value": value}
     	}),
 
@@ -91,12 +91,8 @@ export default function data() {
     	}
     }).then(() => {
       auth.onAuthStateChanged((user) => {
-        firebase.database().ref('User').orderByChild('email').equalTo(user.email).on("value",  (snapshot) => {
-          snapshot.forEach((child) => {
-            const content = child.child("name").val() + " changed LED state to " + (value === "1"? "ON" : "OFF");
-            pushToDB(content);
-          });
-        });
+        const content = "User " + user.email + " changed LED state to " + (value === "1"? "ON" : "OFF");
+        pushToDB(content);
       });
       setOnChangingLed(false);
     });
@@ -119,7 +115,7 @@ export default function data() {
 
         // Adding body or contents to send
         body: JSON.stringify({
-          "X-AIO-Key": "aio_itwI00XSHQABuEVpvLjkmzFZgSjq",
+          "X-AIO-Key": "aio_CBQP35TD43yaqgSjX0Ri8DMxEf3J",
             "datum":{"value": value}
         }),
 
@@ -129,12 +125,8 @@ export default function data() {
         }
       }).then(() => {
         auth.onAuthStateChanged((user) => {
-          firebase.database().ref('User').orderByChild('email').equalTo(user.email).on("value",  (snapshot) => {
-            snapshot.forEach((child) => {
-              const content = child.child("name").val() + " changed PUMP state to " + (value === "3"? "ON" : "OFF");
-              pushToDB(content);
-            });
-          });
+            const content = "User " + user.email + " changed PUMP state to " + (value === "3"? "ON" : "OFF");
+            pushToDB(content);
         });
         setOnChangingPump(false);
       });

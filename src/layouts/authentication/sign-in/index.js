@@ -42,7 +42,7 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 // firebase
-import {auth} from "util/firebase";
+import firebase, {auth} from "util/firebase";
 
 const Basic = () => {
   const navigate = useNavigate();
@@ -58,10 +58,30 @@ const Basic = () => {
     setPassword(event.target.value);
   };
 
+  const pushToDB = (str) => {
+    const timeNow = Date.now();
+    const day = new Date(timeNow).getDate();
+    const month = new Date(timeNow).getMonth() + 1;
+    const year = new Date(timeNow).getFullYear();
+    const date = day + "/" + month + "/" + year;
+    
+    const time = new Date(timeNow).toLocaleTimeString();
+    const fixedTime = date + " " + time;
+
+    const content = {
+      time: fixedTime,
+      content: str
+    };
+
+    const todoRef = firebase.database().ref('Logs');
+    todoRef.push(content);
+  }
+
   const loginFun = () => {
     auth.signInWithEmailAndPassword(email, password)
       .then(() => {
           navigate("/dashboard");
+          pushToDB("User " + email + " logged in");
       })
       .catch((e) => {
           alert(e.message);

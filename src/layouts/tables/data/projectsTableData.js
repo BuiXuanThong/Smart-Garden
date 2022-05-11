@@ -97,11 +97,7 @@ export default function data() {
     });
 
     auth.onAuthStateChanged((user) => {
-      firebase.database().ref('User').orderByChild('email').equalTo(user.email).on("value",  (snapshot) => {
-        snapshot.forEach((child) => {
-          setUserName(child.child("name").val());
-        });
-      });
+      setUserName(user.email);
     });
 
   }, []);
@@ -160,7 +156,7 @@ export default function data() {
         min: temp.min,
         max: temp.max,
       });
-      const content = userName + " changed the Temperature min and max values to [" + temp.min + ", " + temp.max + "]";
+      const content = "User " + userName + " changed the Temperature min and max values to [" + temp.min + ", " + temp.max + "]";
       pushToDB(content);
     }
     else if(type === "humid") {
@@ -168,7 +164,7 @@ export default function data() {
         min: humid.min,
         max: humid.max,
       });
-      const content = userName + " changed the Humidity min and max values to [" + humid.min + ", " + humid.max + "]";
+      const content = "User " + userName + " changed the Humidity min and max values to [" + humid.min + ", " + humid.max + "]";
       pushToDB(content);
     }
     else if(type === "light") {
@@ -176,7 +172,7 @@ export default function data() {
         min: light.min,
         max: light.max,
       });
-      const content = userName + " changed the Light min and max values to [" + light.min + ", " + light.max + "]";
+      const content = "User " + userName + " changed the Light min and max values to [" + light.min + ", " + light.max + "]";
       pushToDB(content);
     }
     else if(type === "ground_humid") {
@@ -184,7 +180,7 @@ export default function data() {
         min: grHumid.min,
         max: grHumid.max,
       });
-      const content = userName + " changed the Ground Humid min and max values to [" + grHumid.min + ", " + grHumid.max + "]";
+      const content = "User " + userName + " changed the Ground Humid min and max values to [" + grHumid.min + ", " + grHumid.max + "]";
       pushToDB(content);
     }
     alert("Saved!");
